@@ -46,7 +46,8 @@ PID: 9101 | Proceso: spotify.exe | Estado: Bloqueado (esperando I/O)
 
 ## Captura de pantalla
 
-![Interfaz gráfica](captura.png)
+<img width="618" height="504" alt="image" src="https://github.com/user-attachments/assets/34fb360c-4977-403f-b827-b1e44c328b16" />
+
 
 ## Multitarea: Windows vs Linux
 
