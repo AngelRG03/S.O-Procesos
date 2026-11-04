@@ -52,5 +52,5 @@ monitor.py	Lista de procesos y simulación del cambio de contexto en consola
 interfaz.py	Interfaz gráfica con barras de CPU y memoria
 requirements.txt	Librerías necesarias
 Autor
-
-Tu Nombre
+Reyes Garcia Miguel Angel
+Torres Rodriguez Lizeth Danae 
