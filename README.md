@@ -1,4 +1,4 @@
-[README (1).md](https://github.com/user-attachments/files/34387554/README.1.md)
+
 # Monitor de procesos del SO
 
 Proyecto de Sistemas Operativos hecho en Python con la librería **psutil**. Muestra los procesos que se están ejecutando en la computadora y simula un cambio de contexto entre ellos.
