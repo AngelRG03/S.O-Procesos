@@ -37,11 +37,63 @@ python interfaz.py
 ## Ejemplo de salida
 
 ```
---- Turno 3 ---
-Cambio de contexto: se guarda chrome.exe y se carga explorer.exe
-PID: 1234 | Proceso: chrome.exe | Estado: Listo
-PID: 5678 | Proceso: explorer.exe | Estado: Ejecutándose
-PID: 9101 | Proceso: spotify.exe | Estado: Bloqueado (esperando I/O)
+## Ejemplo de salida
+
+Resultado de ejecutar `monitor.py` en mi computadora con Windows.
+
+### Lista de procesos
+
+```
+CPU total: 9.9 %
+Memoria usada: 82.8 %
+Procesos activos: 312
+
+    PID  Proceso                       CPU %  Memoria MB  Estado SO
+----------------------------------------------------------------------
+   5936  rsEngineSvc.exe                 2.9       149.1  running
+  25800  python3.11.exe                  2.4        39.7  running
+  13972  wallpaper64.exe                 1.3       110.2  running
+   4064  NVDisplay.Container.exe         0.5        35.1  running
+      4  System                          0.4        11.1  running
+  15512  dwm.exe                         0.3       109.2  running
+  11352  avp.exe                         0.2       370.3  running
+   6080  svchost.exe                     0.1        36.1  running
+   9328  WmiPrvSE.exe                    0.1        47.6  running
+  24740  Spotify.exe                     0.1       376.9  running
+```
+
+### Simulación de cambio de contexto
+
+```
+--- Turno 1 ---
+PID: 5936 | Proceso: rsEngineSvc.exe | Estado: Ejecutándose
+PID: 25800 | Proceso: python3.11.exe | Estado: Listo
+PID: 13972 | Proceso: wallpaper64.exe | Estado: Listo
+PID: 4064 | Proceso: NVDisplay.Container.exe | Estado: Listo
+PID: 4 | Proceso: System | Estado: Listo
+
+--- Turno 4 ---
+Cambio de contexto: se guarda wallpaper64.exe y se carga NVDisplay.Container.exe
+PID: 5936 | Proceso: rsEngineSvc.exe | Estado: Listo
+PID: 25800 | Proceso: python3.11.exe | Estado: Listo
+PID: 13972 | Proceso: wallpaper64.exe | Estado: Bloqueado (esperando I/O)
+PID: 4064 | Proceso: NVDisplay.Container.exe | Estado: Ejecutándose
+PID: 4 | Proceso: System | Estado: Listo
+
+--- Turno 5 ---
+Cambio de contexto: se guarda NVDisplay.Container.exe y se carga System
+PID: 5936 | Proceso: rsEngineSvc.exe | Estado: Listo
+PID: 25800 | Proceso: python3.11.exe | Estado: Listo
+PID: 13972 | Proceso: wallpaper64.exe | Estado: Listo
+PID: 4064 | Proceso: NVDisplay.Container.exe | Estado: Listo
+PID: 4 | Proceso: System | Estado: Ejecutándose
+```
+
+### Qué se observa
+
+- En la columna *Estado SO* todos los procesos aparecen como `running`. Esto pasa porque Windows planifica hilos y no procesos, así que psutil no puede dar el estado real de cada proceso.
+- En cada turno solo un proceso está *Ejecutándose* y los demás esperan en la cola de *Listos*. Cada vez que entra uno nuevo a la CPU hay un cambio de contexto.
+- En el turno 4, `wallpaper64.exe` se bloquea esperando E/S. En el turno 5 termina su E/S y regresa a *Listo*.
 ```
 
 ## Captura de pantalla
